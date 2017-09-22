@@ -1,7 +1,6 @@
 #include<iostream>
 #include<fstream>
 #include<vector>
-#include<unistd.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string>
@@ -36,11 +35,11 @@ vector<moduel>XNOR;
 int startposition_x = 0;
 int startposition_y = 0;
 int turn = 0;
-void settinganswer(vector<moduel>*ptr){
+void settinganswer(vector<moduel> &caculate){
     int counting = 0;
     int countingforx = 25;
     int countingfory = 25;
-    for(moduel temp : *ptr){
+    for(moduel temp : caculate){
         bool input1ready = false;
         bool input2ready = false;
         if(temp.alreadypush == false){
@@ -48,13 +47,13 @@ void settinganswer(vector<moduel>*ptr){
                 for(moduel tempformoduel : tempforvectormoduel){
                     if(tempformoduel.output == temp.input1){
                         input1ready = true;
-                        *ptr[counting].firstinputx = countingforx;
-                        *ptr[counting].firstinputy = countingfory;
+						caculate[counting].firstinputx = countingforx;
+						caculate[counting].firstinputy = countingfory;
                     }
                     if(tempformoduel.output == temp.input2){
                         input2ready = true;
-                        *ptr[counting].secondinputx = countingforx;
-                        *ptr[counting].secondinputy = countingfory;
+						caculate[counting].secondinputx = countingforx;
+						caculate[counting].secondinputy = countingfory;
                     }
                     countingfory = countingfory + 100;
                 }
@@ -64,7 +63,7 @@ void settinganswer(vector<moduel>*ptr){
             if(input1ready == true && input2ready == true){
                 turn--;
                 tempforadded.push_back(temp);
-                *ptr[counting].alreadypush == true;
+				caculate[counting].alreadypush == true;
             }
         }
         counting++;
@@ -89,7 +88,7 @@ int main()
 	for(string temp : source){
         if(temp.find("INPUT")>-1){
             moduel tempformoduel;
-            istringstream iss(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             tempformoduel.name = "INPUT";
             tempformoduel.alreadypush = true;
@@ -97,7 +96,7 @@ int main()
         }
         else if(temp.find("OUTPUT")>-1){
             moduel tempformoduel;
-            istringstream iss(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             tempformoduel.name = "OUTPUT";
             tempformoduel.alreadypush = true;
@@ -106,8 +105,8 @@ int main()
         else if(temp.find("AND")>-1){
             moduel tempformoduel;
             istringstream iss(temp.substr(0,temp.find(" ")));
-            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1));
-            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1)));
+            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             iss2>>tempformoduel.input1;
             iss3>>tempformoduel.input2;
@@ -118,8 +117,8 @@ int main()
         else if(temp.find("OR")>-1){
             moduel tempformoduel;
             istringstream iss(temp.substr(0,temp.find(" ")));
-            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1));
-            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1)));
+            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             iss2>>tempformoduel.input1;
             iss3>>tempformoduel.input2;
@@ -128,8 +127,9 @@ int main()
             OR.push_back(tempformoduel);
         }
         else if(temp.find("NOT")>-1){
-            istringstream iss(0,temp.find(" ")));
-            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1));
+			moduel tempformoduel;
+			istringstream iss(temp.substr(0, temp.find(" ")));
+            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             iss2>>tempformoduel.input1;
             tempformoduel.name = "NOT";
@@ -139,8 +139,8 @@ int main()
         else if(temp.find("NAND")>-1){
             moduel tempformoduel;
             istringstream iss(temp.substr(0,temp.find(" ")));
-            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1));
-            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1)));
+            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             iss2>>tempformoduel.input1;
             iss3>>tempformoduel.input2;
@@ -151,8 +151,8 @@ int main()
         else if(temp.find("NOR")>-1){
             moduel tempformoduel;
             istringstream iss(temp.substr(0,temp.find(" ")));
-            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1));
-            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1)));
+            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             iss2>>tempformoduel.input1;
             iss3>>tempformoduel.input2;
@@ -163,8 +163,8 @@ int main()
         else if(temp.find("XOR")>-1){
             moduel tempformoduel;
             istringstream iss(temp.substr(0,temp.find(" ")));
-            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1));
-            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1)));
+            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             iss2>>tempformoduel.input1;
             iss3>>tempformoduel.input2;
@@ -174,9 +174,9 @@ int main()
         }
         else if(temp.find("XNOR")>-1){
             moduel tempformoduel;
-            istringstream iss(0,temp.find(" ")));
-            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1));
-            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1));
+            istringstream iss(temp.substr(0,temp.find(" ")));
+            istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(',')-(temp.find('(') + 1)));
+            istringstream iss3(temp.substr(temp.find(',') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             iss2>>tempformoduel.input1;
             iss3>>tempformoduel.input2;
@@ -196,14 +196,14 @@ int main()
     while(turn != 0){
         startposition_x = startposition_x + 200;
         coordinate = 0;
-        settinganswer(&AND);
-        settinganswer(&OR);
-        settinganswer(&NOT);
-        settinganswer(&NAND);
-        settinganswer(&NOR);
-        settinganswer(&XOR);
-        settinganswer(&XNOR);
-        settinganswer(&OUTPUT);
+        settinganswer(AND);
+        settinganswer(OR);
+        settinganswer(NOT);
+        settinganswer(NAND);
+        settinganswer(NOR);
+        settinganswer(XOR);
+        settinganswer(XNOR);
+        settinganswer(OUTPUT);
         for(moduel tempformoduel : tempforadded){
             if(tempformoduel.name == "AND"){
                 test.drawAND(startposition_x,startposition_y + coordinate);
@@ -214,7 +214,7 @@ int main()
                 test.drawText(startposition_x,startposition_y + coordinate,tempformoduel.name);
             }
             else if(tempformoduel.name == "NOT"){
-                test.drawNOT(startposition_x,startposition_y + coordinate);
+                test.drawINV(startposition_x,startposition_y + coordinate);
                 test.drawText(startposition_x,startposition_y + coordinate,tempformoduel.name);
             }
             else if(tempformoduel.name == "NAND"){
@@ -261,7 +261,7 @@ int main()
                 test.drawPath(forpath2);
                 currenty = currenty + 100;
             }
-        currentx = currentx + 200
+			currentx = currentx + 200;
     }
     test.SVGEnd();
 }
