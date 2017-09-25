@@ -63,8 +63,14 @@ void settinganswer(vector<moduel> &caculate){
             if(input1ready == true && input2ready == true){
                 turn--;
                 tempforadded.push_back(temp);
-				caculate[counting].alreadypush == true;
+				caculate[counting].alreadypush = true;
             }
+            else if(input1ready == true && temp.name == "NOT"){
+                 turn--;
+                tempforadded.push_back(temp);
+				caculate[counting].alreadypush = true;
+            }
+
         }
         counting++;
     }
@@ -95,12 +101,11 @@ int main()
 	test.SVGBegin("answerforsvg",50000,50000);
 	for(string temp : source){
         if(int(temp.find("INPUT("))>-1){
-            cout<<temp<<endl;
             moduel tempformoduel;
             istringstream iss(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             tempformoduel.name = "INPUT";
-            tempformoduel.alreadypush = true;
+            tempformoduel.alreadypush = false;
             INPUT.push_back(tempformoduel);
         }
         else if(int(temp.find("OUTPUT("))>-1){
@@ -108,8 +113,8 @@ int main()
             istringstream iss(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1)));
             iss>>tempformoduel.output;
             tempformoduel.name = "OUTPUT";
-            tempformoduel.alreadypush = true;
-            INPUT.push_back(tempformoduel);
+            tempformoduel.alreadypush = false;
+            OUTPUT.push_back(tempformoduel);
         }
         else if(int(temp.find("AND("))>-1){
             moduel tempformoduel;
@@ -135,7 +140,7 @@ int main()
             tempformoduel.alreadypush = false;
             OR.push_back(tempformoduel);
         }
-        else if(temp.find("NOT")>-1){
+        else if(int(temp.find("NOT("))>-1){
 			moduel tempformoduel;
 			istringstream iss(temp.substr(0, temp.find(" ")));
             istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1)));
@@ -194,8 +199,6 @@ int main()
             XNOR.push_back(tempformoduel);
         }
     }
-    turn = AND.size() + OR.size() + NOT.size() + NAND.size() + NOR.size() + XOR.size() + XNOR.size();
-    cout<<INPUT.size()<<endl;
     answer.push_back(INPUT);
     int coordinate = 0;
     for(moduel tempformoduel : answer[0]){
@@ -203,7 +206,9 @@ int main()
         test.drawText(startposition_x,startposition_y + coordinate,tempformoduel.name);
         coordinate = coordinate + 100;
     }
+     turn = AND.size() + OR.size() + NOT.size() + NAND.size() + NOR.size() + XOR.size() + XNOR.size() + OUTPUT.size();
     while(turn != 0){
+            cout<<turn<<endl;
         startposition_x = startposition_x + 200;
         coordinate = 0;
         settinganswer(AND);
@@ -213,7 +218,6 @@ int main()
         settinganswer(NOR);
         settinganswer(XOR);
         settinganswer(XNOR);
-        settinganswer(OUTPUT);
         for(moduel tempformoduel : tempforadded){
             if(tempformoduel.name == "AND"){
                 test.drawAND(startposition_x,startposition_y + coordinate);
@@ -252,6 +256,7 @@ int main()
         answer.push_back(tempforadded);
         tempforadded.clear();
     }
+
     vector< int > forpath;
     vector< int > forpath2;
     int currentx = 225;
