@@ -135,7 +135,11 @@ int main()
             tempformoduel.alreadypush = false;
             OR.push_back(tempformoduel);
         }
+<<<<<<< HEAD
         else if(int(temp.find("NOT("))>-1){
+=======
+        else if(temp.find("NOT")>-1){
+>>>>>>> 3ed613b06daf34679abddc423605b36f27c83e90
 			moduel tempformoduel;
 			istringstream iss(temp.substr(0, temp.find(" ")));
             istringstream iss2(temp.substr(temp.find('(') + 1,temp.find(')')-(temp.find('(') + 1)));
