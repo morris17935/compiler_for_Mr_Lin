@@ -222,12 +222,12 @@ void ScalableVectorGraphicsGenerator::drawPath(std::vector< int >& path)
     out << endl;
 }
 
-void ScalableVectorGraphicsGenerator::drawText(int x, int y, std::string& text)
+void ScalableVectorGraphicsGenerator::drawText(int x, int y, int z)
 {
     out << "\t<text "
         << "x=\"" << x + gateSize / 2 << "\" "
         << "y=\"" << y + gateSize / 2 << "\" >"
-        << text << "</text>";
+        << z << "</text>";
     out << endl;
 }
 
