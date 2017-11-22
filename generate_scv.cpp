@@ -36,7 +36,7 @@ vector<moduel>XNOR;
 int startposition_x = 0;
 int startposition_y = 0;
 int turn = 0;
-int turn2 = 0;
+
 void settinganswer(vector<moduel> &caculate){
     int counting = 0;
     for(moduel temp : caculate){
