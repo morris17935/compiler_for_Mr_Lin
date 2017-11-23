@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.js"
+    "test": "mocha test/**/*.js --reporter mochawesome"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "mocha": "^4.0.1",
+    "mochawesome": "^2.3.1",
     "should": "^13.1.3"
   }
 }
