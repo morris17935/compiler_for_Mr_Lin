@@ -4,7 +4,7 @@ describe('#average', () => {
   // 測試算出來的平均是不是 2.5
   it('should return the average of array', done => {
     var avg = average([1, 2, 3, 4])
-    avg.should.equal(2.5)
+    avg.should.equal(10)
     done()
   })
   // 測試有沒有回傳 NaN
